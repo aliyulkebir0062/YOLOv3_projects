@@ -24,7 +24,6 @@ def show_coordinates(event, x, y, flags, param):
         cv2.rectangle(frame, seçilen_koordinatlar[0], seçilen_koordinatlar[1], (0, 0, 255), 2)
         cv2.imshow("Nesne algilama", frame)
 
-#Pencere oluştur ve fare olayları işlemek için işlevi ayarla
 cv2.namedWindow("Nesne algilama")
 cv2.setMouseCallback("Nesne algilama", show_coordinates)
 
@@ -35,7 +34,7 @@ while True:
 
     height, width, _ = frame.shape
 
-    # Çerçeveyi YOLO modeline uygun formata dönüştür
+    #Çerçeveyi YOLO modeline uygun formata dönüştür
     blob = cv2.dnn.blobFromImage(frame, 1/255, (416, 416), (0, 0, 0), swapRB=True, crop=False)
     net.setInput(blob)
     output_layers_names = net.getUnconnectedOutLayersNames()
@@ -45,7 +44,7 @@ while True:
     confidences = []
     class_ids = []
 
-    # Tespit sonuçlarını işle
+    #Tespit sonuçlarını işle
     for output in layer_outputs:
         for detection in output:
             scores = detection[5:]
@@ -61,7 +60,7 @@ while True:
                 x = int(center_x - w / 2)
                 y = int(center_y - h / 2)
                 
-                # Seçilen alan içindeki nesneleri tespit et
+                #Seçilen alan içindeki nesneleri tespit et
                 if seçilen_koordinatlar and len(seçilen_koordinatlar) == 2:
                     x1, y1 = seçilen_koordinatlar[0]
                     x2, y2 = seçilen_koordinatlar[1]
